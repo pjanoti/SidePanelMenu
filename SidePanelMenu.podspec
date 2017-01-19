@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "SidePanelMenu"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = "It gives an Android style side panel menu."
   s.description  = "It gives an Android style side panel menu. you can set the different properties of SideMenuView like `backGroundColor`, `separatorColor `, `separatorType `, `transparentViewMargin ` etc if you need to customize it otherwise it will take default values."
 
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
   s.ios.deployment_target = '9.0'
 
-  s.source       = { :git => "https://github.com/pjanoti/SidePanelMenu.git", :tag => s.version }
+  s.source       = { :git => "https://github.com/pjanoti/SidePanelMenu.git", :branch => "master", :tag => s.version }
 
   #  s.source_files  = "Classes", "Classes/**/*.{h,m}"
   s.source_files = "Classes/**/*.{swift}"

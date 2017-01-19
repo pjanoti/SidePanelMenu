@@ -10,13 +10,13 @@ $ [sudo] gem install cocoapods
 $ pod setup
 ```
 
-#####Install `SideMenuView ` pod
+#####Install `SidePanelMenu ` pod
 Once Cocoa Pods has been installed, you can add `SideMenuView ` iOS Component to your project by adding a dependency entry to the Podfile in your project root directory.
 
 ```
 $ edit Podfile
 platform :ios, '9.0'
-pod 'SideMenuView'
+pod 'SidePanelMenu'
 ```
 
 This sample shows a minimal Podfile that you can use to add `SideMenuView ` iOS Component dependency to your project. 
@@ -34,22 +34,22 @@ Once you install a pod dependency in your project, make sure to always open the 
 $ open App.xcworkspace
 ```
 
-Now you can import `SideMenuView ` in your source files:
+Now you can import `SidePanelMenu ` in your source files:
 
 Swift
 
 ```swift
-import SideMenuView
+import SidePanelMenu
 ```
 
 At this point `SideMenuView ` iOS Component is ready for use in your project.
 
 
-### SideMenuView Component Usage Guideline
+### SidePanelMenu Component Usage Guideline
 
 ##### How to import?
 
-***Step 1.*** Go to your `ViewController.swift` & `import SideMenuView`
+***Step 1.*** Go to your `ViewController.swift` & `import SidePanelMenu`
 
 ***Step 2.*** Go to your `ViewController.swift` & add `SideMenuViewDelegate`
 

@@ -16,19 +16,19 @@ public enum Direction: Int {
     case right = 2
 }
 
-class Item: NSObject {
-    var title: String
-    var iconName: String
-    var isSelected: Bool
+open class Item: NSObject {
+   open var title: String
+   open var iconName: String
+   open var isSelected: Bool
     
-    init(title: String, iconName: String, isSelected: Bool) {
+    public init(title: String, iconName: String, isSelected: Bool) {
         self.title = title
         self.iconName = iconName
         self.isSelected = isSelected
     }
 }
 
-class SideMenuTVCell: UITableViewCell {
+ class SideMenuTVCell: UITableViewCell {
     
     @IBOutlet weak var iconIView: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
@@ -73,7 +73,7 @@ class SideMenuTVCell: UITableViewCell {
 }
 
 /** Protocol for side panel. */
-protocol SideMenuViewDelegate {
+ public protocol SideMenuViewDelegate {
     /** called on side Panel delegate whenever an item is selected from side Panel.
      
      @param selectedItem reference which is currently selected.
@@ -86,15 +86,15 @@ protocol SideMenuViewDelegate {
   Custom Side Panel Menu.
  */
 
-class SideMenuView: UIView {
+open class SideMenuView: UIView {
     
     let kDefaultTransparentViewMargin = 75.0
     
-    @IBOutlet weak var userIView: UIImageView!
+    @IBOutlet weak open var userIView: UIImageView!
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var lblUserName: UILabel!
-    @IBOutlet weak var menuTView: UITableView!
-    @IBOutlet weak var userInfoView: UIView!
+    @IBOutlet weak open var lblUserName: UILabel!
+    @IBOutlet weak open var menuTView: UITableView!
+    @IBOutlet weak open var userInfoView: UIView!
     
     /** Array containg Side Panel items. */
     var items: [Item]?
@@ -103,24 +103,24 @@ class SideMenuView: UIView {
     
     /** Delegate to recive events from side panel */
     var delegate: SideMenuViewDelegate?
-    var userImageUrl: URL?
-    var userName: String?
-    var arrConstraints: [NSLayoutConstraint]?
+    open var userImageUrl: URL?
+    open var userName: String?
+    open var arrConstraints: [NSLayoutConstraint]?
     
     /** Float value containing transparent margin of container view. */
-    var transparentViewMargin: Float?
+    open var transparentViewMargin: Float?
     
     /** Background color for side panel. */
-    var backGroundColor: UIColor?
+    open var backGroundColor: UIColor?
     
     /** Seperator color of tableview in side panel. */
-    var separatorColor: UIColor?
+    open var separatorColor: UIColor?
     
     /** Seperator type of tableview in side panel. */
-    var separatorType: UITableViewCellSeparatorStyle?
+    open var separatorType: UITableViewCellSeparatorStyle?
     
     /** side panel backGround imageview.*/
-    var backGroundImageView: UIImageView?
+    open var backGroundImageView: UIImageView?
     
     var darkView: UIView?
     var mainView: UIView?
@@ -130,10 +130,12 @@ class SideMenuView: UIView {
     var trailingConst: NSLayoutConstraint?
     
   
-    override func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         self.containerView.backgroundColor = UIColor.clear
-        self.menuTView.register(UINib.init(nibName: "SideMenuTVCell", bundle:nil ), forCellReuseIdentifier: "SideMenuTVCell")
+        
+        let bun = Bundle(for: self.classForCoder)
+        self.menuTView.register(UINib.init(nibName: "SideMenuTVCell", bundle:bun ), forCellReuseIdentifier: "SideMenuTVCell")
         self.menuTView.separatorInset = .zero
         self.userIView.layoutIfNeeded()
         self.userIView.layer.borderWidth = 3.0
@@ -162,8 +164,10 @@ class SideMenuView: UIView {
  
  */
     
-  class func initMenuView(_ contents: [Item], slideDirection: Direction?, delegate: SideMenuViewDelegate ) -> SideMenuView{
-       let sideView = Bundle.main.loadNibNamed("SideMenuView", owner: self, options: nil)?.last as? SideMenuView
+ open class func initMenuView(_ contents: [Item], slideDirection: Direction?, delegate: SideMenuViewDelegate ) -> SideMenuView{
+    
+   let bun = Bundle(for: self.classForCoder())
+       let sideView = bun.loadNibNamed("SideMenuView", owner: self, options: nil)?.last as? SideMenuView
         if sideView != nil {
             if slideDirection != nil {
                sideView?.menuDirection = slideDirection
@@ -184,7 +188,7 @@ class SideMenuView: UIView {
 
  */
 
-    func setupInitialConstraintWRTView(_ view: UIView, containerView: UIView?) {
+  open func setupInitialConstraintWRTView(_ view: UIView, containerView: UIView?) {
         self.mainView = view;
         if containerView != nil {
             self.contView = containerView;
@@ -268,7 +272,7 @@ class SideMenuView: UIView {
     
     /** Use this method to Show side panel over a view without slide effect on supper view. */
  
-    func showSidePanelWithoutSlideEffectOnSuperView() {
+   open func showSidePanelWithoutSlideEffectOnSuperView() {
         if self.isSliderVisible == true {
             self.removeSidePanelWithoutSlideEffectOnSuperView()
             return
@@ -301,7 +305,7 @@ class SideMenuView: UIView {
     
     /** Use this method to Remove side panel from a view without slide efect on supper view. */
 
-    func removeSidePanelWithoutSlideEffectOnSuperView() {
+  open func removeSidePanelWithoutSlideEffectOnSuperView() {
         if self.isSliderVisible == false {
             return
         }
@@ -334,7 +338,7 @@ class SideMenuView: UIView {
 
 extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
         if (self.items?.count)! > 0 {
            count = (self.items?.count)!
@@ -342,7 +346,7 @@ extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
          return count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVCell", for: indexPath) as? SideMenuTVCell
         cell?.selectionStyle = .none
@@ -353,7 +357,7 @@ extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
         return cell!
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.resetAllSliderItemsSelectedState()
         tableView.deselectRow(at: indexPath, animated: true)
         let currentSelectedItem = self.items?[indexPath.row]
@@ -363,7 +367,7 @@ extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50.0
     }
     

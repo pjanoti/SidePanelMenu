@@ -8,12 +8,12 @@
 
 Pod::Spec.new do |s|
   s.name         = "SidePanelMenu"
-  s.version      = "0.0.9"
+  s.version      = "0.1.0"
   s.summary      = "It gives an Android style side panel menu."
   s.description  = "It gives an Android style side panel menu. you can set the different properties of SideMenuView like `backGroundColor`, `separatorColor `, `separatorType `, `transparentViewMargin ` etc if you need to customize it otherwise it will take default values."
 
   s.homepage     = "https://github.com/pjanoti/SidePanelMenu"
-  #s.screenshot   = "https://github.com/pjanoti/SidePanelMenu/img.png"
+  s.screenshot   = "https://github.com/pjanoti/SidePanelMenu/img.png"
 
   #s.license      = "MIT (example)"
   s.license      = { :type => "MIT", :file => "FILE_LICENSE" }

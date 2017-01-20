@@ -151,4 +151,6 @@ func menuButtonTapped() {
     }
 ```
 ####Here we have sidepanel :)
- ![Alt text](/Users/SidePanelMenu/SidePanelMenu/img.png?raw=true "Optional Title")
+ ![](img.png)
+ 
+ ![](SidePanelMenu.gif)

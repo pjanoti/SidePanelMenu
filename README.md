@@ -150,3 +150,5 @@ func menuButtonTapped() {
      self.removeSidePanel()
     }
 ```
+####Here we have sidepanel :)
+ ![Alt text](/Users/SidePanelMenu/SidePanelMenu/img.png?raw=true "Optional Title")

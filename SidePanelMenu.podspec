@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "SidePanelMenu"
-  s.version      = "0.1.0"
+  s.version      = "0.1.1"
   s.summary      = "It gives an Android style side panel menu."
   s.description  = "It gives an Android style side panel menu. you can set the different properties of SideMenuView like `backGroundColor`, `separatorColor `, `separatorType `, `transparentViewMargin ` etc if you need to customize it otherwise it will take default values."
 

@@ -1,4 +1,4 @@
-target "SideMenu" do
+target "SidePanelExample" do
   use_frameworks!
 
 pod ‘SidePanelMenu’

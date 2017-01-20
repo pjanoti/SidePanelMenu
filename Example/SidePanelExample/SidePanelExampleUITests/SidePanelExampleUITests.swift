@@ -1,14 +1,14 @@
 //
-//  SideMenuUITests.swift
-//  SideMenuUITests
+//  SidePanelExampleUITests.swift
+//  SidePanelExampleUITests
 //
-//  Created by prema janoti on 12/26/16.
-//  Copyright © 2016 Altimertik. All rights reserved.
+//  Created by prema janoti on 1/20/17.
+//  Copyright © 2017 Altimertik. All rights reserved.
 //
 
 import XCTest
 
-class SideMenuUITests: XCTestCase {
+class SidePanelExampleUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()

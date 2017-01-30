@@ -20,7 +20,7 @@ open class Item: NSObject {
    open var title: String
    open var iconName: String
    open var isSelected: Bool
-    
+
     public init(title: String, iconName: String, isSelected: Bool) {
         self.title = title
         self.iconName = iconName
@@ -29,23 +29,23 @@ open class Item: NSObject {
 }
 
  class SideMenuTVCell: UITableViewCell {
-    
+
     @IBOutlet weak var iconIView: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     var item: Item?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
+
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
-        
+
         var imageName = self.item?.iconName
         if highlighted {
             self.lblTitle.textColor = UIColor.white
@@ -64,12 +64,12 @@ open class Item: NSObject {
             self.iconIView.image = UIImage(named: imageName!)
         }
     }
-    
+
     func updateUI(_ item: Item) {
         self.item = item
         self.lblTitle.text = item.title
     }
-    
+
 }
 
 /** Protocol for side panel. */
@@ -87,53 +87,52 @@ open class Item: NSObject {
  */
 
 open class SideMenuView: UIView {
-    
+
     let kDefaultTransparentViewMargin = 75.0
-    
+
     @IBOutlet weak open var userIView: UIImageView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak open var lblUserName: UILabel!
     @IBOutlet weak open var menuTView: UITableView!
     @IBOutlet weak open var userInfoView: UIView!
-    
+
     /** Array containg Side Panel items. */
     var items: [Item]?
-    
+
     var menuDirection: Direction?
-    
+
     /** Delegate to recive events from side panel */
     var delegate: SideMenuViewDelegate?
     open var userImageUrl: URL?
     open var userName: String?
     open var arrConstraints: [NSLayoutConstraint]?
-    
+
     /** Float value containing transparent margin of container view. */
     open var transparentViewMargin: Float?
-    
+
     /** Background color for side panel. */
     open var backGroundColor: UIColor?
-    
+
     /** Seperator color of tableview in side panel. */
     open var separatorColor: UIColor?
-    
+
     /** Seperator type of tableview in side panel. */
     open var separatorType: UITableViewCellSeparatorStyle?
-    
+
     /** side panel backGround imageview.*/
     open var backGroundImageView: UIImageView?
-    
+
     var darkView: UIView?
     var mainView: UIView?
     var contView: UIView?
     var isSliderVisible: Bool?
     var leadingConst: NSLayoutConstraint?
     var trailingConst: NSLayoutConstraint?
-    
-  
+
     override open func awakeFromNib() {
         super.awakeFromNib()
         self.containerView.backgroundColor = UIColor.clear
-        
+
         let bun = Bundle(for: self.classForCoder)
         self.menuTView.register(UINib.init(nibName: "SideMenuTVCell", bundle:bun ), forCellReuseIdentifier: "SideMenuTVCell")
         self.menuTView.separatorInset = .zero
@@ -143,9 +142,9 @@ open class SideMenuView: UIView {
         let radius = self.userIView.frame.size.width / 2
         self.userIView.layer.cornerRadius = radius
     }
-    
+
     func setupViews() {
-       
+
         if self.backGroundImageView == nil {
             self.backGroundImageView = UIImageView.init(frame: self.bounds)
             self.backGroundImageView?.backgroundColor = UIColor.clear
@@ -156,16 +155,16 @@ open class SideMenuView: UIView {
         self.menuTView.tableFooterView = UIView()
         self.menuTView.backgroundColor = UIColor.clear
   }
-    
+
 /** Initializes and returns a newly allocated side panel object with the specified delegate, and contents. Content is used as datasource for the side panel tableView
  - parameter contents : Array of contents for datasource.
  - parameter slideDirection : direction of side panel. (if No direction then, default direction will be Right).
  - parameter delegate : delegate for the side panel.
  
  */
-    
- open class func initMenuView(_ contents: [Item], slideDirection: Direction?, delegate: SideMenuViewDelegate ) -> SideMenuView{
-    
+
+ open class func initMenuView(_ contents: [Item], slideDirection: Direction?, delegate: SideMenuViewDelegate ) -> SideMenuView {
+
    let bun = Bundle(for: self.classForCoder())
        let sideView = bun.loadNibNamed("SideMenuView", owner: self, options: nil)?.last as? SideMenuView
         if sideView != nil {
@@ -179,7 +178,7 @@ open class SideMenuView: UIView {
             sideView?.setupViews()
         }
     return sideView!
-    
+
     }
 
 /** Use this method to Add initial sidepanel over a view.
@@ -189,36 +188,35 @@ open class SideMenuView: UIView {
  */
 
   open func setupInitialConstraintWRTView(_ view: UIView, containerView: UIView?) {
-        self.mainView = view;
+        self.mainView = view
         if containerView != nil {
-            self.contView = containerView;
+            self.contView = containerView
         } else {
            self.contView = view
         }
         self.translatesAutoresizingMaskIntoConstraints = false
         var topConst: NSLayoutConstraint?
         var bottomConst: NSLayoutConstraint?
-        
+
         topConst = NSLayoutConstraint.init(item: self, attribute: .top, relatedBy: .equal, toItem: self.mainView, attribute: .top, multiplier: 1.0, constant: 64.0)
         bottomConst = NSLayoutConstraint.init(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.mainView, attribute: .bottom, multiplier: 1.0, constant: 0.0)
-        
+
         if self.menuDirection == .right {
            leadingConst = NSLayoutConstraint.init(item: self, attribute: .leading, relatedBy: .equal, toItem: self.contView, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-            
+
            trailingConst = NSLayoutConstraint.init(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.contView, attribute: .trailing, multiplier: 1.0, constant: self.calculateSliderWidth())
         } else {
             leadingConst = NSLayoutConstraint.init(item: self, attribute: .leading, relatedBy: .equal, toItem: self.contView, attribute: .leading, multiplier: 1.0, constant: -(self.calculateSliderWidth()))
-            
+
             trailingConst = NSLayoutConstraint.init(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.contView, attribute: .leading, multiplier: 1.0, constant: 0.0)
         }
         view.addConstraints([topConst!, bottomConst!, leadingConst!, trailingConst!])
     }
-    
-    
+
     /** Using this method to calculate Slider Width on the basis of given transparent View Margin .
      
      */
-    
+
    private func calculateSliderWidth() -> CGFloat {
         let screenScale = UIScreen.main.scale
         var panelWidth = (UIScreen.main.currentMode?.size.width)! / screenScale
@@ -229,11 +227,10 @@ open class SideMenuView: UIView {
         }
         return panelWidth
     }
-    
-    
+
     /** Using this method to Add Dark View over a sidepanel.
     */
-    
+
    private func addDarkView() {
         if self.darkView == nil {
             let darkView = UIView()
@@ -241,13 +238,13 @@ open class SideMenuView: UIView {
             darkView.translatesAutoresizingMaskIntoConstraints = false
             darkView.backgroundColor = UIColor.black
             darkView.alpha = 0.0
-         
+
             UIView.animate(withDuration: 0.3, animations: {
                 darkView.alpha = 0.5
             }, completion: nil)
             self.mainView?.addSubview(darkView)
             self.mainView?.insertSubview(self.darkView!, belowSubview: self)
-            
+
            let bottomSpace = NSLayoutConstraint.init(item: darkView, attribute: .bottom, relatedBy: .equal, toItem: self.mainView, attribute: .bottom, multiplier: 1.0, constant: 0.0)
             let topSpace = NSLayoutConstraint.init(item: darkView, attribute: .top, relatedBy: .equal, toItem: self.mainView, attribute: .top, multiplier: 1.0, constant: 0.0)
             let leadingSpace = NSLayoutConstraint.init(item: darkView, attribute: .leading, relatedBy: .equal, toItem: self.mainView, attribute: .leading, multiplier: 1.0, constant: 0.0)
@@ -255,8 +252,7 @@ open class SideMenuView: UIView {
             self.mainView?.addConstraints([topSpace, bottomSpace, leadingSpace, trailingSpace])
         }
     }
-    
-    
+
     /** Using this method to remove Dark View over a sidepanel.
      
      */
@@ -266,12 +262,12 @@ open class SideMenuView: UIView {
             self.darkView?.removeFromSuperview()
             self.darkView = nil
         }, completion: {(finished) -> Void in
-            
+
         })
     }
-    
+
     /** Use this method to Show side panel over a view without slide effect on supper view. */
- 
+
    open func showSidePanelWithoutSlideEffectOnSuperView() {
         if self.isSliderVisible == true {
             self.removeSidePanelWithoutSlideEffectOnSuperView()
@@ -302,7 +298,7 @@ open class SideMenuView: UIView {
         })
 
     }
-    
+
     /** Use this method to Remove side panel from a view without slide efect on supper view. */
 
   open func removeSidePanelWithoutSlideEffectOnSuperView() {
@@ -337,7 +333,7 @@ open class SideMenuView: UIView {
 }
 
 extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
-    
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = 0
         if (self.items?.count)! > 0 {
@@ -345,9 +341,9 @@ extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
         }
          return count
     }
-    
+
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "SideMenuTVCell", for: indexPath) as? SideMenuTVCell
         cell?.selectionStyle = .none
         if (self.items?.count)! > 0 {
@@ -356,7 +352,7 @@ extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
         }
         return cell!
     }
-    
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.resetAllSliderItemsSelectedState()
         tableView.deselectRow(at: indexPath, animated: true)
@@ -366,11 +362,11 @@ extension SideMenuView: UITableViewDelegate, UITableViewDataSource {
             self.delegate?.didSelectItem(currentSelectedItem!)
         }
     }
-    
+
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50.0
     }
-    
+
     func resetAllSliderItemsSelectedState() {
         for item in self.items! {
             item.isSelected = false
